@@ -4,15 +4,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { ScoringComponent } from './components/scoring/scoring.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ScoringService } from './services/scoring.service';
+import { BallByBallRequest } from './models/BallByBallRequest';
+import { ScoreSummary, ScoreSummaryRequest } from './models/ScoreSummary';
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ScoringComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    
+    
   ],
-  providers: [],
+  providers: [BallByBallRequest,ScoringService,ScoreSummaryRequest,ScoreSummary],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

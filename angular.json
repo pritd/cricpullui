@@ -37,11 +37,15 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
             "scripts": []
           },
           "configurations": {
+            "proxyConfig": {
+              "deployUrl": "src/proxy.conf.json"
+            },
             "production": {
               "budgets": [
                 {

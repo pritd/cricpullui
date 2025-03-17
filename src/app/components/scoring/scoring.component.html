@@ -1,0 +1,152 @@
+<div class="container border rounded" style="height: 91vh;" >
+    <div class="row ">
+      <div class="h3 col-sm-12 col-md-12 margin-5">
+        {{ ss.batterTeam.teamName }}
+      </div>
+    </div>
+    <div class="row border-top border-bottom h-25">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 text-center">
+                <span style="font-size: xxx-large;">
+                    {{ ss.score }}/{{ ss.wicket }} 
+                </span>
+                <span class="h4">
+                    ({{ss.overs}}.{{ss.ball}}/6) 
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12 text-center">
+                <p>
+                    <span>
+                        CRR : 6
+                    </span> 
+                    <span>
+                        Projected Score : 30        
+                    </span>
+                </p>
+                <p>
+                    Team B need 40 Runs in 30 Balls 
+                </p> 
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <b>{{ss.batterSummary[0].playerName}}</b> &nbsp;
+            <img class="blink" src="../../../assets/batpng.png" alt="player" style="width: 26px; height: 26px; border-radius: 50%;">
+        </div>
+        <div class="col-sm- col-md-6">
+            <b>{{ss.batterSummary[1].playerName}}</b>  &nbsp;
+            <!-- <img class="blink" src="../../../assets/batpng.png" alt="player" style="width: 26px; height: 26px; border-radius: 50%;"> -->
+        </div>
+    </div>
+    <div class="row border-bottom">
+        <div class="col-sm col-md">
+            {{ss.batterSummary[0].run}} ({{ss.batterSummary[0].ball}})
+        </div>
+        <div class="col-sm col-md">
+            {{ss.batterSummary[1].run}} ({{ss.batterSummary[1].ball}})
+        </div>
+    </div>
+    <div class="row mt-2 mb-2">
+        <div class="col-sm col-md">
+            <b>{{ ss.ballerSummary.playerName}}</b>&nbsp;
+            <img class="loaderball" src="../../../assets/ball.jpg" alt="player" style="width: 26px; height: 26px; border-radius: 50%;">
+        </div>
+        <div class="col-sm col-md">
+            {{ss.ballerSummary.wicket}}-{{ss.ballerSummary.run}} ({{ss.ballerSummary.overs}}<span *ngIf="ss.ballerSummary.ball<6">.{{ss.ballerSummary.ball}}</span>) 
+        </div>
+    </div>
+    <div class="row border-bottom border-top">
+        <div class="numbercontainer col-sm-12 col-md-12 ">
+            <div *ngFor="let ball of ss.ballByBallSummary">
+                <div class="numbers" *ngIf="ball.extraRunShortCode == null && !ball.isOut">
+                    {{ ball.run }} 
+                </div>
+
+                <div class="numbersandout" *ngIf="ball.isOut">
+                    <div>{{ ball.run }}</div>
+                    <div class="ballbyballnote">W</div>    
+                </div>
+
+                <div class="numbersandnote" *ngIf="ball.extraRunShortCode !== null">
+                    <div>{{ ball.run }}</div>
+                    <div class="ballbyballnote">{{ ball.extraRunShortCode }}</div>    
+                </div>
+
+
+            </div>
+            <div class="emptynumbers loader" *ngIf="ss.ball > 0">&nbsp;</div>        
+        </div>
+    </div>
+    <div class="scorebuttondiv row h-40 margin-5">
+        <div class="col-sm-9 col-md-9">
+            <div class="row h-30 margin-5">
+                <div class="col-sm-4 col-md-4">
+                    <button class="btn btn-success scorebutton" (click)="AddScore(0)">0</button>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <button class="btn btn-success scorebutton" (click)="AddScore(1)">1</button>                     
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <button class="btn btn-success scorebutton" (click)="AddScore(2)">2</button>                     
+                </div>
+            </div>
+            <div class="row h-30 margin-5">
+                <div class="col-sm-4 col-md-4">
+                    <button class="btn btn-success scorebutton" (click)="AddScore(3)">3</button>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <button class="btn btn-success scorebutton" (click)="AddScore(4)">4 (Four)</button>                     
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <button class="btn btn-success scorebutton" (click)="AddScore(6)">6 (Six)</button>                     
+                </div>
+            </div>
+            <div class="row h-30 margin-5">
+                <div class="col-sm-4 col-md-4">
+                    <button class="btn btn-success scorebutton" (click)="AddScore(0, 'WB',0)">WD</button>
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <button class="btn btn-success scorebutton" (click)="AddScore(0,'NB',0)">NB</button>                     
+                </div>
+                <div class="col-sm-4 col-md-4">
+                    <button class="btn btn-success scorebutton" (click)="AddScore(0,'BYE',0)">BYE</button>                     
+                </div>
+            </div>            
+        </div>
+        <div class="col-sm-3 col-md-3">
+            <div class="row h-22 margin-5">
+                <div class="col-sm-12 col-md-12">
+                    <button class="btn btn-success scorebutton">UNDO</button>
+                </div>
+            </div>            
+            <div class="row h-22 margin-5">
+                <div class="col-sm-12 col-md-12">
+                    <button class="btn btn-success scorebutton">5,7</button>
+                </div>
+            </div>            
+            <div class="row h-22 margin-5">
+                <div class="col-sm-12 col-md-12">
+                    <button class="btn btn-success scorebutton" (click)="AddScore(0,'W')">OUT</button>
+                </div>
+            </div>            
+            <div class="row h-22 margin-5">
+                <div class="col-sm-12 col-md-12">
+                    <button class="btn btn-success scorebutton" (click)="AddScore(0,'LB',0)">LB</button>
+                </div>
+            </div>            
+        </div>
+    </div>
+    <div class="">
+        <div class="row border-top ">
+            <div class="col-sm-12 col-md-12 margin-5" style="padding-right: calc(var(--bs-gutter-x)* .5) !important;">
+                <button class="btn btn-secondary scorebutton">Options</button>
+            </div>
+        </div>           
+    </div>           
+</div>
+  

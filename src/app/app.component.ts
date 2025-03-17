@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { ScoringComponent } from './components/scoring/scoring.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
