@@ -3,7 +3,7 @@ import { DashboardBallByBall, DashboardSummary } from '../models/DashboardSummar
 import { BallByBallRequest } from '../models/BallByBallRequest';
 import { catchError, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ScoreSummary, ScoreSummaryRequest } from '../models/ScoreSummary';
+import { Summary, SummaryRequest } from '../models/ScoreSummary';
 import { environment } from '../environments/environments';
 
 @Injectable({
@@ -29,8 +29,8 @@ export class ScoringService {
    }
 
 
-  getScore(scoreSummaryRequest: ScoreSummaryRequest): Observable<ScoreSummaryRequest> {
-    return this.http.get<ScoreSummaryRequest>(environment.baseUrl + "/Score/GetScoreSummary?matchId=" + scoreSummaryRequest.matchId + "&BallerPlayerId=" + scoreSummaryRequest.BallerPlayerId + "&OverNumber=" + scoreSummaryRequest.OverNumber, this.httpOptions);
+  getScore(scoreSummaryRequest: SummaryRequest): Observable<SummaryRequest> {
+    return this.http.get<SummaryRequest>(environment.baseUrl + "/Score/GetScoreSummary?matchId=" + scoreSummaryRequest.matchId + "&BallerPlayerId=" + scoreSummaryRequest.BallerPlayerId + "&OverNumber=" + scoreSummaryRequest.OverNumber, this.httpOptions);
     // .pipe(
     //   catchError(this.handleError('addScore', ballByBallRequest))
     // );

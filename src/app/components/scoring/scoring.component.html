@@ -1,17 +1,17 @@
 <div class="container border rounded" style="height: 91vh;" >
     <div class="row ">
       <div class="h3 col-sm-12 col-md-12 margin-5">
-        {{ ss.batterTeam.teamName }}
+        {{ summary().batterTeam.teamName }}
       </div>
     </div>
     <div class="row border-top border-bottom h-25">
         <div class="row">
             <div class="col-sm-12 col-md-12 text-center">
                 <span style="font-size: xxx-large;">
-                    {{ ss.score }}/{{ ss.wicket }} 
+                    {{ summary().score }}/{{ summary().wicket }} 
                 </span>
                 <span class="h4">
-                    ({{ss.overs}}.{{ss.ball}}/6) 
+                    ({{summary().overs}}.{{summary().ball}}/6) 
                 </span>
             </div>
         </div>
@@ -35,34 +35,34 @@
 
     <div class="row">
         <div class="col-sm-6 col-md-6">
-            <b>{{ss.batterSummary[0].playerName}}</b> &nbsp;
+            <b>{{summary().batterSummary[0].playerName}}</b> &nbsp;
             <img class="blink" src="../../../assets/batpng.png" alt="player" style="width: 26px; height: 26px; border-radius: 50%;">
         </div>
         <div class="col-sm- col-md-6">
-            <b>{{ss.batterSummary[1].playerName}}</b>  &nbsp;
+            <b>{{summary().batterSummary[1].playerName}}</b>  &nbsp;
             <!-- <img class="blink" src="../../../assets/batpng.png" alt="player" style="width: 26px; height: 26px; border-radius: 50%;"> -->
         </div>
     </div>
     <div class="row border-bottom">
         <div class="col-sm col-md">
-            {{ss.batterSummary[0].run}} ({{ss.batterSummary[0].ball}})
+            {{summary().batterSummary[0].run}} ({{summary().batterSummary[0].ball}})
         </div>
         <div class="col-sm col-md">
-            {{ss.batterSummary[1].run}} ({{ss.batterSummary[1].ball}})
+            {{summary().batterSummary[1].run}} ({{summary().batterSummary[1].ball}})
         </div>
     </div>
     <div class="row mt-2 mb-2">
         <div class="col-sm col-md">
-            <b>{{ ss.ballerSummary.playerName}}</b>&nbsp;
+            <b>{{ summary().ballerSummary.playerName}}</b>&nbsp;
             <img class="loaderball" src="../../../assets/ball.jpg" alt="player" style="width: 26px; height: 26px; border-radius: 50%;">
         </div>
         <div class="col-sm col-md">
-            {{ss.ballerSummary.wicket}}-{{ss.ballerSummary.run}} ({{ss.ballerSummary.overs}}<span *ngIf="ss.ballerSummary.ball<6">.{{ss.ballerSummary.ball}}</span>) 
+            {{summary().ballerSummary.wicket}}-{{summary().ballerSummary.run}} ({{summary().ballerSummary.overs}}<span *ngIf="summary().ballerSummary.ball<6">.{{summary().ballerSummary.ball}})</span> 
         </div>
     </div>
     <div class="row border-bottom border-top">
         <div class="numbercontainer col-sm-12 col-md-12 ">
-            <div *ngFor="let ball of ss.ballByBallSummary">
+            <div *ngFor="let ball of summary().ballByBallSummary">
                 <div class="numbers" *ngIf="ball.extraRunShortCode == null && !ball.isOut">
                     {{ ball.run }} 
                 </div>
@@ -79,7 +79,7 @@
 
 
             </div>
-            <div class="emptynumbers loader" *ngIf="ss.ball > 0">&nbsp;</div>        
+            <div class="emptynumbers loader" *ngIf="summary().ball > 0">&nbsp;</div>        
         </div>
     </div>
     <div class="scorebuttondiv row h-40 margin-5">

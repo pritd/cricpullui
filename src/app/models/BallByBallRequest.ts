@@ -1,7 +1,7 @@
-import { ScoreSummaryRequest } from "./ScoreSummary";
+import { SummaryRequest } from "./ScoreSummary";
 
 export class BallByBallRequest {
-    scoreSummaryRequest: ScoreSummaryRequest;
+    scoreSummaryRequest: SummaryRequest;
     matchId: number;
     batterPlayerId: number;
     ballerPlayerId: number;
@@ -18,7 +18,7 @@ export class BallByBallRequest {
     outBatterId?: number;    
 
     constructor() {
-        this.scoreSummaryRequest = new ScoreSummaryRequest();
+        this.scoreSummaryRequest = new SummaryRequest();
         this.matchId = 0;
         this.batterPlayerId = 0;
         this.ballerPlayerId = 0;

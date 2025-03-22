@@ -8,7 +8,7 @@ import { ScoringComponent } from './components/scoring/scoring.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ScoringService } from './services/scoring.service';
 import { BallByBallRequest } from './models/BallByBallRequest';
-import { ScoreSummary, ScoreSummaryRequest } from './models/ScoreSummary';
+import { Summary, SummaryRequest } from './models/ScoreSummary';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,7 @@ import { ScoreSummary, ScoreSummaryRequest } from './models/ScoreSummary';
     
     
   ],
-  providers: [BallByBallRequest,ScoringService,ScoreSummaryRequest,ScoreSummary],
+  providers: [BallByBallRequest,ScoringService,SummaryRequest,Summary],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -62,7 +62,7 @@ export class BallByBallSummary {
     }
 }
 
-export class ScoreSummaryRequest{
+export class SummaryRequest{
     matchId:number;
     BallerPlayerId:number;
     OverNumber:number;
@@ -79,7 +79,7 @@ export class ScoreSummaryRequest{
     }
 }
 
-export class ScoreSummary {
+export class Summary {
     batterSummary: BatterSummary[];
     ballerSummary: BallerSummary;
     batterTeam: Team;
