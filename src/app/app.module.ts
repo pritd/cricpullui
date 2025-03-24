@@ -9,11 +9,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { ScoringService } from './services/scoring.service';
 import { BallByBallRequest } from './models/BallByBallRequest';
 import { Summary, SummaryRequest } from './models/ScoreSummary';
+import { ScorebarComponent } from './components/scorebar/scorebar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ScoringComponent
+    ScoringComponent,
+    ScorebarComponent
   ],
   imports: [
     BrowserModule,

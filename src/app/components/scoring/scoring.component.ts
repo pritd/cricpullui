@@ -8,6 +8,7 @@ import { Summary, SummaryRequest } from "../../models/ScoreSummary";
 import { state } from "@angular/animations";
 import { BallType, ExtraRunType } from "../../enum/Enums";
 import { map } from 'rxjs/operators';
+import { ScorebarComponent } from "../scorebar/scorebar.component";
 
 @Component({
     selector: "app-scoring",
@@ -53,7 +54,6 @@ export class ScoringComponent{
 
     response = signal<Summary>(new Summary());
     summary  =computed(() => {
-        debugger;
         const resp = this.response();
         if (!resp) return new Summary();
         const fairDeliveries = resp.ballByBallSummary.filter(element => element.ballType===BallType.FairDelivery).length

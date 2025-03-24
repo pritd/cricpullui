@@ -1,0 +1,79 @@
+<div class="score-strip border rounded" style="height: 10vh;" >
+
+    <div class="row ">
+      <div class="col-sm-1 col-md-1 col-lg-1 ">
+        {{ summary().batterTeam.teamName }}
+      </div>
+      <div class="col-sm-5 col-md-5 col-lg-5">
+        <div class="row ">
+          <div class="col-sm-6 col-md-6 col-lg-6 main-score-box rounded">
+            <span class="score">{{ summary().score }}-{{ summary().wicket }}</span>
+            <span class="overs text-align-right">{{summary().overs}}.{{summary().ball}}/6</span>
+        <div>
+            </div>
+          </div>        
+          <div class="col-sm-6 col-md-6 col-lg-6">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <img class="blink" src="../../../assets/batpng.png" alt="player" style="width: 26px; height: 26px; border-radius: 50%;">
+                <span class="batsman">{{summary().batterSummary[0].playerName}}</span>
+                <span class="batsman text-align-right">{{summary().batterSummary[0].run}} ({{summary().batterSummary[0].ball}})</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <img class="blink" src="../../../assets/batpng.png" alt="player" style="width: 26px; height: 26px; border-radius: 50%;">
+                <span class="batsman">{{summary().batterSummary[1].playerName}}</span>
+                <span class="batsman  text-align-right"> {{summary().batterSummary[1].run}} ({{summary().batterSummary[1].ball}})</span>
+              </div>
+            </div>
+          </div>        
+        </div>
+      </div>
+      <div class="col-sm-5 col-md-5 col-lg-5">
+        <div class="row ">
+          <div class="col-sm-4 col-md-4 col-lg-4">
+            <div class="run-rate">Run-Rate</div>
+            <div class="run-rate ">7.2</div>            
+          </div>        
+          <div class="col-sm-8 col-md-8 col-lg-8">
+            <div>
+              <span class="baller">Baller name : </span>
+              <span class="baller">{{summary().ballerSummary.wicket}}-{{summary().ballerSummary.run}} ({{summary().ballerSummary.overs}}<span *ngIf="summary().ballerSummary.ball<6">.{{summary().ballerSummary.ball}})</span>             </span>
+            </div> 
+            <div class="run-rate ">
+              
+                <div class="numbercontainer ">
+                  <div *ngFor="let ball of summary().ballByBallSummary">
+                      <div class="numbers" *ngIf="ball.extraRunShortCode == null && !ball.isOut">
+                          {{ ball.run }} 
+                      </div>
+      
+                      <div class="numbersandout" *ngIf="ball.isOut">
+                          <div>{{ ball.run }}</div>
+                          <div class="ballbyballnote">W</div>    
+                      </div>
+      
+                      <div class="numbersandnote" *ngIf="ball.extraRunShortCode !== null">
+                          <div>{{ ball.run }}</div>
+                          <div class="ballbyballnote">{{ ball.extraRunShortCode }}</div>    
+                      </div>
+      
+      
+                  </div>
+                  <div class="emptynumbers loader" *ngIf="summary().ball > 0">&nbsp;</div>        
+              </div>      
+
+            </div>            
+          </div>        
+        </div>
+      </div>
+      <div class="col-sm-1 col-md-1 col-lg-1">
+        
+        
+      </div>
+    </div>
+    
+               
+</div>
+  
