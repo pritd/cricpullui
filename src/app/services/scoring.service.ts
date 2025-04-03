@@ -30,7 +30,7 @@ export class ScoringService {
 
 
   getScore(scoreSummaryRequest: SummaryRequest): Observable<SummaryRequest> {
-    return this.http.get<SummaryRequest>(environment.baseUrl + "/Score/GetScoreSummary?matchId=" + scoreSummaryRequest.matchId + "&BallerPlayerId=" + scoreSummaryRequest.BallerPlayerId + "&OverNumber=" + scoreSummaryRequest.OverNumber, this.httpOptions);
+    return this.http.get<SummaryRequest>(environment.baseUrl + "/Score/GetScoreSummary?matchId=" + scoreSummaryRequest.matchId + "&BallerPlayerId=" + scoreSummaryRequest.ballerPlayerId + "&OverNumber=" + scoreSummaryRequest.overNumber, this.httpOptions);
     // .pipe(
     //   catchError(this.handleError('addScore', ballByBallRequest))
     // );
@@ -38,6 +38,13 @@ export class ScoringService {
   
   addScore(ballByBallRequest: BallByBallRequest): Observable<BallByBallRequest> {
     return this.http.post<BallByBallRequest>(environment.baseUrl + "/Score/SaveScoreBallByBall", ballByBallRequest, this.httpOptions);
+    // .pipe(
+    //   catchError(this.handleError('addScore', ballByBallRequest))
+    // );
+  }
+
+  undoScore(summaryRequest: SummaryRequest): Observable<SummaryRequest> {
+    return this.http.post<BallByBallRequest>(environment.baseUrl + "/Score/UndoScoreBallByBall", summaryRequest, this.httpOptions);
     // .pipe(
     //   catchError(this.handleError('addScore', ballByBallRequest))
     // );

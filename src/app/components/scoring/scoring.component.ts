@@ -1,25 +1,46 @@
-import { Component, signal, effect, Signal, computed, WritableSignal, numberAttribute } from "@angular/core";
-import { DashboardBallByBall, DashboardSummary } from "../../models/DashboardSummary";
+import { Component, signal, Signal, computed } from "@angular/core";
 import { ScoringService } from "../../services/scoring.service";
-import { HttpClient } from "@angular/common/http";
 import { BallByBallRequest } from "../../models/BallByBallRequest";
-import { Observable } from "rxjs";
-import { Summary, SummaryRequest } from "../../models/ScoreSummary";
-import { state } from "@angular/animations";
+import { BatterSummary, Summary, SummaryRequest } from "../../models/ScoreSummary";
 import { BallType, ExtraRunType } from "../../enum/Enums";
-import { map } from 'rxjs/operators';
-import { ScorebarComponent } from "../scorebar/scorebar.component";
+import { Modal } from 'bootstrap';
 
 @Component({
     selector: "app-scoring",
     templateUrl:"./scoring.component.html",
-    styleUrl:"./scoring.component.css"
-
+    styleUrl:"./scoring.component.css",
 })
 
 
 
 export class ScoringComponent{
+    ballTyepNote:string = "";
+    scoredByRuns:number=0;
+
+    batsmanList : BatterSummary[] = [
+        { playerId:1,playerName:"Pritam",ball:0,run:0,isOnStrike:true},
+        { playerId:2,playerName:"Virat",ball:0,run:0,isOnStrike:true},
+        { playerId:3,playerName:"Sunil",ball:0,run:0,isOnStrike:true},
+        { playerId:4,playerName:"Ajit",ball:0,run:0,isOnStrike:true},
+        { playerId:4,playerName:"Ajit",ball:0,run:0,isOnStrike:true},
+        { playerId:4,playerName:"Ajit",ball:0,run:0,isOnStrike:true},
+        { playerId:4,playerName:"Ajit",ball:0,run:0,isOnStrike:true},
+        { playerId:4,playerName:"Ajit",ball:0,run:0,isOnStrike:true},
+        { playerId:4,playerName:"Ajit",ball:0,run:0,isOnStrike:true},
+        { playerId:4,playerName:"Ajit",ball:0,run:0,isOnStrike:true},
+        { playerId:4,playerName:"Ajit",ball:0,run:0,isOnStrike:true},
+        { playerId:4,playerName:"Ajit",ball:0,run:0,isOnStrike:true},
+    ];
+    ballerList : BatterSummary[] = [
+        { playerId:1,playerName:"Dr. $hyam",ball:0,run:0,isOnStrike:true},
+        { playerId:2,playerName:"Mrugesh",ball:0,run:0,isOnStrike:true},
+        { playerId:3,playerName:"Patel",ball:0,run:0,isOnStrike:true},
+        { playerId:4,playerName:"Anand",ball:0,run:0,isOnStrike:true},
+        { playerId:4,playerName:"Raj",ball:0,run:0,isOnStrike:true},
+        { playerId:4,playerName:"Sangram",ball:0,run:0,isOnStrike:true},
+    ];
+    
+
     run = signal(-1);
     additionalRun = signal(-1);
     note = signal("");
@@ -56,33 +77,65 @@ export class ScoringComponent{
     summary  =computed(() => {
         const resp = this.response();
         if (!resp) return new Summary();
-        const fairDeliveries = resp.ballByBallSummary.filter(element => element.ballType===BallType.FairDelivery).length
-        this.summaryRequest.BallNumber = fairDeliveries+1;
-        if(fairDeliveries==6){
-            this.summaryRequest.BallNumber=1;
-            this.summaryRequest.OverNumber++;
-            this.summaryRequest.BallerPlayerId = this.summaryRequest.BallerPlayerId==13?14:13;
-            console.log("Over changed");
+        this.summaryRequest.ballNumber = resp.ball+1;
+        this.summaryRequest.overNumber = resp.overs;
+        this.ballTyepNote = "";
+        this.scoredByRuns = 0;
+        this.summaryRequest.batterPlayerId = resp.batterSummary.find(b=>b.isOnStrike==true)?.playerId??1;
+        this.summaryRequest.coBatterPlayerId  = resp.batterSummary.find(b=>b.isOnStrike==false)?.playerId??2;
+
+
+        if(resp.isOverFinished){
+            const modalElement = document.getElementById('mdlBallerSelection');
+            if (modalElement) {
+              const myModal = new Modal(modalElement);
+              myModal.show();
+            }
         }
 
-        return {...this.response(),
-            ball:fairDeliveries===6?0:fairDeliveries,
-            overs:this.summaryRequest.OverNumber,
-        };
+
+        return resp;
       });
 
 
 
     constructor(private scoringService: ScoringService, private ballByBallRequest: BallByBallRequest, private summaryRequest: SummaryRequest) {
+        
         this.summaryRequest={
             matchId:1,
-            BallerPlayerId:13,
-            OverNumber:0,
-            BallNumber:1,
-            BatterPlayerId:1
+            ballerPlayerId:13,
+            overNumber:0,
+            ballNumber:1,
+            batterPlayerId:this.summary().batterSummary.find(b=>b.isOnStrike==true)?.playerId??1,
+            coBatterPlayerId:this.summary().batterSummary.find(b=>b.isOnStrike==false)?.playerId??2,
         }
 
-        //this.getScore()
+        this.getScore()
+    }
+
+    setScoredByRunData(note : string){
+        this.ballTyepNote=note;
+        this.scoredByRuns=0;
+    }
+   
+    addInScoreByRun(scoreByRun: number){
+        this.scoredByRuns = this.scoredByRuns + scoreByRun;
+        this.scoredByRuns = this.scoredByRuns<0?0:this.scoredByRuns 
+    }
+
+    setActive(batsmanId : number,batsmanName: string) {
+        this.summary().batterSummary.push({ playerName: batsmanName, playerId: batsmanId, run: 0, ball: 0, isOnStrike: false });
+    }
+    
+    selectStrikePlayer(playerId:number,coPlayerId:number){
+        debugger;
+        this.summary().batterSummary.forEach(p=>p.isOnStrike=false);
+        const player = this.summary().batterSummary.find(f=>f.playerId==playerId);
+        if(player){
+            player.isOnStrike=true;
+        }
+        this.summaryRequest.batterPlayerId = playerId;
+        this.summaryRequest.coBatterPlayerId = coPlayerId;
     }
 
     getScore():void {
@@ -92,19 +145,33 @@ export class ScoringComponent{
             });
         }
 
-    AddScore(run : number,note? : string,additionalRun?:number):void {
-        this.note.set(note??"");
+    AddScore(run : number):void {
+        this.note.set(this.ballTyepNote??"");
         this.run.set(run);
-        this.additionalRun.set(additionalRun??0);
+        debugger;
+
+        
+        //this block is written to handle 5,7 runs in main score
+        //5,7 runs are coming through scoredByRuns popup that needs to set in main score not in extras
+        if(this.ballTyepNote=="" && this.scoredByRuns>0){
+            this.run.set(this.scoredByRuns);
+            run=this.scoredByRuns;
+        }else{
+            this.additionalRun.set(this.scoredByRuns??0);
+        }
+        //this block is written to handle 5,7 runs in main score
         
         this.ballByBallRequest = {
             scoreSummaryRequest : this.summaryRequest,
             run : run,
             matchId:this.summaryRequest.matchId,
-            batterPlayerId:this.summaryRequest.BatterPlayerId,   
-            ballerPlayerId:this.summaryRequest.BallerPlayerId,
-            overNumber:this.summaryRequest.OverNumber,
-            ballNumber:this.summaryRequest.BallNumber,
+            batterPlayerId:this.summaryRequest.batterPlayerId,   
+            coBatterPlayerId:this.summaryRequest.coBatterPlayerId,
+            
+            
+            ballerPlayerId:this.summaryRequest.ballerPlayerId,
+            overNumber:this.summaryRequest.overNumber,
+            ballNumber:this.summaryRequest.ballNumber,
             ballType:this.ballType(),
             extraRunTypeId:this.extraRunType(),
             nbRun:this.noBallRun(),
@@ -115,6 +182,15 @@ export class ScoringComponent{
 
         //service call to add score
         this.scoringService.addScore(this.ballByBallRequest).subscribe(
+            (data: any) => {
+                this.response.set(data);
+            } 
+        ); 
+    }
+
+    UndoScore():void {
+        //service call to undo score
+        this.scoringService.undoScore(this.summaryRequest).subscribe(
             (data: any) => {
                 this.response.set(data);
             } 

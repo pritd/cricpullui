@@ -1,7 +1,7 @@
 <div class="container border rounded" style="height: 91vh;" >
     <div class="row ">
       <div class="h3 col-sm-12 col-md-12 margin-5">
-        {{ summary().batterTeam.teamName }}
+        {{ summary().batterTeam.teamName }}  VS {{ summary().ballerTeam.teamName }} 
       </div>
     </div>
     <div class="row border-top border-bottom h-25">
@@ -11,7 +11,7 @@
                     {{ summary().score }}/{{ summary().wicket }} 
                 </span>
                 <span class="h4">
-                    ({{summary().overs}}.{{summary().ball}}/6) 
+                    ({{summary().overs}}.{{summary().ball}}/{{summary().totalOvers}}) 
                 </span>
             </div>
         </div>
@@ -32,34 +32,54 @@
         </div>
     </div>
 
-
     <div class="row">
+        <div class="col-sm-6 col-md-6 batterName-div" data-bs-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#strikeModal">
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <img *ngIf="summary().batterSummary.at(0)?.isOnStrike" class="blink" src="../../../assets/batpng.png" alt="player" style="width: 20px; height: 20px; border-radius: 50%;">
+                    <b>{{summary().batterSummary.at(0)?.playerName}}</b> &nbsp;
+                </div>
+            </div>
+            <div class="row border-bottom">
+                <div class="col-sm-12 col-md-12">
+                    {{summary().batterSummary.at(0)?.run}} ({{summary().batterSummary.at(0)?.ball}})
+                </div>
+            </div>                
+        </div>
+
+        <div class="col-sm-6 col-md-6 batterName-div" data-bs-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#strikeModal">
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <img *ngIf="summary().batterSummary.at(1)?.isOnStrike" class="blink" src="../../../assets/batpng.png" alt="player" style="width: 20px; height: 20px; border-radius: 50%;">
+                    <b>{{summary().batterSummary.at(1)?.playerName}}</b>  &nbsp;
+                </div>
+            </div>
+            <div class="row border-bottom">
+                <div class="col-sm col-md">
+                    {{summary().batterSummary.at(1)?.run}} ({{summary().batterSummary.at(1)?.ball}})
+                </div>
+            </div>                
+        </div>
+    </div>
+    
+    <div class="row ">
+        <div class="col-sm-6 col-md-6 batterName-div">
+            <div class="row">
+                <div class="col-sm-12 col-md-12" data-bs-toggle="tooltip" data-bs-toggle="modal" data-bs-target="#mdlBallerSelection">
+                    <b>{{ summary().ballerSummary.playerName}}</b>&nbsp;
+                    <img class="loaderball" src="../../../assets/ball.jpg" alt="player" style="width: 20px; height: 20px; border-radius: 50%;">
+                </div>
+            </div>
+        </div>
         <div class="col-sm-6 col-md-6">
-            <b>{{summary().batterSummary[0].playerName}}</b> &nbsp;
-            <img class="blink" src="../../../assets/batpng.png" alt="player" style="width: 26px; height: 26px; border-radius: 50%;">
-        </div>
-        <div class="col-sm- col-md-6">
-            <b>{{summary().batterSummary[1].playerName}}</b>  &nbsp;
-            <!-- <img class="blink" src="../../../assets/batpng.png" alt="player" style="width: 26px; height: 26px; border-radius: 50%;"> -->
-        </div>
-    </div>
-    <div class="row border-bottom">
-        <div class="col-sm col-md">
-            {{summary().batterSummary[0].run}} ({{summary().batterSummary[0].ball}})
-        </div>
-        <div class="col-sm col-md">
-            {{summary().batterSummary[1].run}} ({{summary().batterSummary[1].ball}})
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    {{summary().ballerSummary.wicket}}-{{summary().ballerSummary.run}} ({{summary().ballerSummary.overs}} <span *ngIf="summary().ballerSummary.ball<6">.{{summary().ballerSummary.ball}})</span>         
+                </div>
+                    </div>
         </div>
     </div>
-    <div class="row mt-2 mb-2">
-        <div class="col-sm col-md">
-            <b>{{ summary().ballerSummary.playerName}}</b>&nbsp;
-            <img class="loaderball" src="../../../assets/ball.jpg" alt="player" style="width: 26px; height: 26px; border-radius: 50%;">
-        </div>
-        <div class="col-sm col-md">
-            {{summary().ballerSummary.wicket}}-{{summary().ballerSummary.run}} ({{summary().ballerSummary.overs}}<span *ngIf="summary().ballerSummary.ball<6">.{{summary().ballerSummary.ball}})</span> 
-        </div>
-    </div>
+
     <div class="row border-bottom border-top">
         <div class="numbercontainer col-sm-12 col-md-12 ">
             <div *ngFor="let ball of summary().ballByBallSummary">
@@ -82,7 +102,7 @@
             <div class="emptynumbers loader" *ngIf="summary().ball > 0">&nbsp;</div>        
         </div>
     </div>
-    <div class="scorebuttondiv row h-40 margin-5">
+    <div class=" row h-40 margin-5">
         <div class="col-sm-9 col-md-9">
             <div class="row h-30 margin-5">
                 <div class="col-sm-4 col-md-4">
@@ -108,45 +128,161 @@
             </div>
             <div class="row h-30 margin-5">
                 <div class="col-sm-4 col-md-4">
-                    <button class="btn btn-success scorebutton" (click)="AddScore(0, 'WB',0)">WD</button>
+                    <button class="btn btn-success scorebutton" data-bs-toggle="modal" data-bs-target="#mdlAdditionalScore" (click)="setScoredByRunData('WB')" >WD</button>
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <button class="btn btn-success scorebutton" (click)="AddScore(0,'NB',0)">NB</button>                     
+                    <button class="btn btn-success scorebutton" data-bs-toggle="modal" data-bs-target="#mdlAdditionalScore" (click)="setScoredByRunData('NB')" >NB</button>                     
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <button class="btn btn-success scorebutton" (click)="AddScore(0,'BYE',1)">BYE</button>                     
+                    <button class="btn btn-success scorebutton" data-bs-toggle="modal" data-bs-target="#mdlAdditionalScore" (click)="setScoredByRunData('BYE')" >BYE</button>                     
                 </div>
             </div>            
         </div>
         <div class="col-sm-3 col-md-3">
             <div class="row h-22 margin-5">
                 <div class="col-sm-12 col-md-12">
-                    <button class="btn btn-success scorebutton">UNDO</button>
+                    <button class="btn btn-success scorebutton" [disabled]="summary().ballByBallSummary.length==0" (click)="UndoScore()">UNDO</button>
                 </div>
             </div>            
             <div class="row h-22 margin-5">
                 <div class="col-sm-12 col-md-12">
-                    <button class="btn btn-success scorebutton">5,7</button>
+                    <button class="btn btn-success scorebutton" data-bs-toggle="modal" data-bs-target="#mdlAdditionalScore" (click)="setScoredByRunData('')" >5,7</button>
                 </div>
             </div>            
             <div class="row h-22 margin-5">
                 <div class="col-sm-12 col-md-12">
-                    <button class="btn btn-success scorebutton" (click)="AddScore(0,'W')">OUT</button>
+                    <button class="btn btn-success scorebutton" (click)="AddScore(0)">OUT</button>
                 </div>
             </div>            
             <div class="row h-22 margin-5">
                 <div class="col-sm-12 col-md-12">
-                    <button class="btn btn-success scorebutton" (click)="AddScore(0,'LB',1)">LB</button>
+                    <button class="btn btn-success scorebutton" data-bs-toggle="modal" data-bs-target="#mdlAdditionalScore" (click)="setScoredByRunData('LB')">LB</button>
                 </div>
             </div>            
         </div>
     </div>
+
     <div class="">
-        <div class="row border-top ">
-            <div class="col-sm-12 col-md-12 margin-5" style="padding-right: calc(var(--bs-gutter-x)* .5) !important;">
-                <button class="btn btn-secondary scorebutton">Options</button>
+        <div class="row">
+            <div class="col-sm-12 col-md-12 margin-5">
+                <!-- <button class="btn btn-secondary ">Options</button> -->
             </div>
         </div>           
-    </div>           
+    </div>  
+    
+
+    <div class="modal fade" id="mdlAdditionalScore" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Runs Scored by running</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 d-flex align-items-center gap-2">
+                            <button for="runs" class="btn btn-danger" (click)="addInScoreByRun(-1)">
+                                <i class="bi bi-dash"></i>
+                            </button>
+                            <input class="form-control" type="text" [(ngModel)]="scoredByRuns" min="0">
+                            <button for="runs" class="btn btn-success" (click)="addInScoreByRun(1)">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                            <label for="runs">Runs</label>        
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal" (click)="AddScore(0)">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="modal fade" id="mdlBatterSelection" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Select Batter</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body batter-model-body">
+                    <div *ngFor="let batsman of batsmanList"
+                        class="batsman-row p-3 border rounded mb-2 batterName-div"
+                        (click)="setActive(batsman.playerId,batsman.playerName)">
+                        {{ batsman.playerName }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal" (click)="AddScore(0)">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="mdlBallerSelection" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Select Baller</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body batter-model-body">
+                    <div *ngFor="let baller of ballerList"
+                        class="batsman-row p-3 border rounded mb-2 batterName-div"
+                        (click)="setActive(baller.playerId,baller.playerName)">
+                        {{ baller.playerName }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal" (click)="AddScore(0)">Start Next Over</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="strikeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-danger">Who is on strike?</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+              <div class="row">
+                <div class="col-6">
+                  <div class="player-card"  (click)="selectStrikePlayer(summary().batterSummary.at(0)?.playerId??0,summary().batterSummary.at(1)?.playerId??0)">
+                    <img src="assets/profile/AjitSheth.jpg" class="img-fluid rounded strike-player-image">
+                    <p class="margin-5">{{summary().batterSummary.at(0)?.playerName}}</p>
+                    <div *ngIf="summary().batterSummary.at(0)?.isOnStrike" class="overlay">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="player-card" (click)="selectStrikePlayer(summary().batterSummary.at(1)?.playerId??0,summary().batterSummary.at(0)?.playerId??0)">
+                    <img src="assets/profile/ShreyashD.jpg" class="img-fluid rounded strike-player-image">
+                    <p class="margin-5">{{summary().batterSummary.at(1)?.playerName}}</p>
+                    <div *ngIf="summary().batterSummary.at(1)?.isOnStrike" class="overlay">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+              <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
 </div>
-  
+

@@ -1,16 +1,16 @@
 export class BatterSummary {
     playerId: number;
-    playerName: string;
+    public playerName: string;
     run: number;
     ball: number;
-    onStrike: boolean;
+    isOnStrike: boolean;
 
     constructor() {
         this.playerId = 0;
         this.playerName = "";
         this.run = 0;
         this.ball = 0;
-        this.onStrike = false;
+        this.isOnStrike = false;
     }
 }
 
@@ -64,18 +64,20 @@ export class BallByBallSummary {
 
 export class SummaryRequest{
     matchId:number;
-    BallerPlayerId:number;
-    OverNumber:number;
+    ballerPlayerId:number;
+    overNumber:number;
     
-    BallNumber:number;
-    BatterPlayerId:number;
+    ballNumber:number;
+    batterPlayerId:number;
+    coBatterPlayerId:number;
 
     constructor(){
         this.matchId=0;
-        this.BallerPlayerId=0;
-        this.OverNumber=0;
-        this.BallNumber=0;
-        this.BatterPlayerId=0;
+        this.ballerPlayerId=0;
+        this.overNumber=0;
+        this.ballNumber=0;
+        this.batterPlayerId=0;
+        this.coBatterPlayerId=0        
     }
 }
 
@@ -86,10 +88,12 @@ export class Summary {
     ballerTeam: Team;
     score: number;
     wicket: number;
-    overs: number;
+    overs:number;
+    totalOvers: number;
     ball: number;
     ballByBallSummary: BallByBallSummary[];
-
+    isInningFinished:boolean;
+    isOverFinished:boolean;
     constructor() {
         this.batterSummary = [];
         this.ballerSummary = new BallerSummary();
@@ -98,7 +102,10 @@ export class Summary {
         this.score = 0;
         this.wicket = 0;
         this.overs = 0;
+        this.totalOvers = 0;
         this.ball = 0;
         this.ballByBallSummary = [];
+        this.isInningFinished = false;
+        this.isOverFinished = false;
     }
 }

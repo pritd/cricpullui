@@ -1,79 +1,70 @@
-<div class="score-strip border rounded" style="height: 10vh;" >
+<div class="container-fluid px-2">
+  <div class="scoreboard">
 
-    <div class="row ">
-      <div class="col-sm-1 col-md-1 col-lg-1 ">
+    <!-- Left team -->
+    <div class="d-flex align-items-center">
+      <div class="team-name">
         {{ summary().batterTeam.teamName }}
       </div>
-      <div class="col-sm-5 col-md-5 col-lg-5">
-        <div class="row ">
-          <div class="col-sm-6 col-md-6 col-lg-6 main-score-box rounded">
-            <span class="score">{{ summary().score }}-{{ summary().wicket }}</span>
-            <span class="overs text-align-right">{{summary().overs}}.{{summary().ball}}/6</span>
-        <div>
-            </div>
-          </div>        
-          <div class="col-sm-6 col-md-6 col-lg-6">
-            <div class="row">
-              <div class="col-sm-12 col-md-12 col-lg-12">
-                <img class="blink" src="../../../assets/batpng.png" alt="player" style="width: 26px; height: 26px; border-radius: 50%;">
-                <span class="batsman">{{summary().batterSummary[0].playerName}}</span>
-                <span class="batsman text-align-right">{{summary().batterSummary[0].run}} ({{summary().batterSummary[0].ball}})</span>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12 col-md-12 col-lg-12">
-                <img class="blink" src="../../../assets/batpng.png" alt="player" style="width: 26px; height: 26px; border-radius: 50%;">
-                <span class="batsman">{{summary().batterSummary[1].playerName}}</span>
-                <span class="batsman  text-align-right"> {{summary().batterSummary[1].run}} ({{summary().batterSummary[1].ball}})</span>
-              </div>
-            </div>
-          </div>        
-        </div>
-      </div>
-      <div class="col-sm-5 col-md-5 col-lg-5">
-        <div class="row ">
-          <div class="col-sm-4 col-md-4 col-lg-4">
-            <div class="run-rate">Run-Rate</div>
-            <div class="run-rate ">7.2</div>            
-          </div>        
-          <div class="col-sm-8 col-md-8 col-lg-8">
-            <div>
-              <span class="baller">Baller name : </span>
-              <span class="baller">{{summary().ballerSummary.wicket}}-{{summary().ballerSummary.run}} ({{summary().ballerSummary.overs}}<span *ngIf="summary().ballerSummary.ball<6">.{{summary().ballerSummary.ball}})</span>             </span>
-            </div> 
-            <div class="run-rate ">
-              
-                <div class="numbercontainer ">
-                  <div *ngFor="let ball of summary().ballByBallSummary">
-                      <div class="numbers" *ngIf="ball.extraRunShortCode == null && !ball.isOut">
-                          {{ ball.run }} 
-                      </div>
-      
-                      <div class="numbersandout" *ngIf="ball.isOut">
-                          <div>{{ ball.run }}</div>
-                          <div class="ballbyballnote">W</div>    
-                      </div>
-      
-                      <div class="numbersandnote" *ngIf="ball.extraRunShortCode !== null">
-                          <div>{{ ball.run }}</div>
-                          <div class="ballbyballnote">{{ ball.extraRunShortCode }}</div>    
-                      </div>
-      
-      
-                  </div>
-                  <div class="emptynumbers loader" *ngIf="summary().ball > 0">&nbsp;</div>        
-              </div>      
+    </div>
 
-            </div>            
-          </div>        
-        </div>
+    <!-- Batsman Info -->
+    <div class="batsman-info">
+      <div class="batsman" [class]="{'batsman-onstrike':summary().batterSummary[0].isOnStrike}">
+        <span>{{summary().batterSummary[0].playerName}}</span>
+        <span class="ml-1">{{summary().batterSummary[0].run}} ({{summary().batterSummary[0].ball}})</span>
       </div>
-      <div class="col-sm-1 col-md-1 col-lg-1">
-        
-        
+      <div class="batsman" [class]="{'batsman-onstrike':summary().batterSummary[1].isOnStrike}">
+        <span>{{summary().batterSummary[1].playerName}}</span>
+        <span class="ml-1">{{summary().batterSummary[1].run}} ({{summary().batterSummary[1].ball}})</span>
       </div>
     </div>
-    
-               
+    <!-- Middle Section -->
+    <div class="middle-section flex-column text-center">
+      <div class="d-flex align-items-center">
+        <div class="score-box">{{ summary().score }}-{{ summary().wicket }}</div>
+        <span class="ms-2">{{summary().overs}}.{{summary().ball}}({{summary().totalOvers}})</span>
+      </div>
+      <div class="batting-text mt-1">WW needs 25 Runs from 12 balls</div>
+    </div>
+
+    <!-- Bowler Info -->
+    <div class="bowler-info">
+      <div class="bowler">
+        <img class="loaderball" src="../../../assets/ball.jpg" alt="player">
+        <span>{{summary().ballerSummary.playerName}}</span>
+        <span>{{summary().ballerSummary.wicket}}-{{summary().ballerSummary.run}} ({{summary().ballerSummary.overs}}<span *ngIf="summary().ballerSummary.ball<6">.{{summary().ballerSummary.ball}})</span></span>
+        
+      </div>
+      <div class="bowler">
+            <div class="numbercontainer ">
+              <div *ngFor="let ball of summary().ballByBallSummary">
+                  <div class="numbers" *ngIf="ball.extraRunShortCode == null && !ball.isOut">
+                      {{ ball.run }} 
+                  </div>
+
+                  <div class="numbersandout" *ngIf="ball.isOut">
+                      <div>{{ ball.run }}</div>
+                      <div class="ballbyballnote">W</div>    
+                  </div>
+
+                  <div class="numbersandnote" *ngIf="ball.extraRunShortCode !== null">
+                      <div>{{ ball.run }}</div>
+                      <div class="ballbyballnote">{{ ball.extraRunShortCode }}</div>    
+                  </div>
+              </div>
+          </div>      
+      </div>
+
+
+  </div>
+
+    <!-- Right team -->
+    <div class="d-flex align-items-center">
+      <div class="team-name">
+        {{ summary().ballerTeam.teamName }}
+      </div>
+    </div>
+
+  </div>
 </div>
-  

@@ -4,6 +4,7 @@ export class BallByBallRequest {
     scoreSummaryRequest: SummaryRequest;
     matchId: number;
     batterPlayerId: number;
+    coBatterPlayerId: number;
     ballerPlayerId: number;
     overNumber: number;
     ballNumber: number;
@@ -21,6 +22,7 @@ export class BallByBallRequest {
         this.scoreSummaryRequest = new SummaryRequest();
         this.matchId = 0;
         this.batterPlayerId = 0;
+        this.coBatterPlayerId = 0;
         this.ballerPlayerId = 0;
         this.overNumber = 0;
         this.ballNumber = 0;

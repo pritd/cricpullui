@@ -10,19 +10,19 @@ import { ScoringService } from './services/scoring.service';
 import { BallByBallRequest } from './models/BallByBallRequest';
 import { Summary, SummaryRequest } from './models/ScoreSummary';
 import { ScorebarComponent } from './components/scorebar/scorebar.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     ScoringComponent,
-    ScorebarComponent
+    ScorebarComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    
-    
+    FormsModule,    
   ],
   providers: [BallByBallRequest,ScoringService,SummaryRequest,Summary],
   bootstrap: [AppComponent]
